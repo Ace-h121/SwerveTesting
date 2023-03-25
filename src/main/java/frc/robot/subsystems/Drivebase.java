@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.MotorConstants;
 
 public class Drivebase extends SubsystemBase {
-  AHRS Gyro = new AHRS(I2C.Port.kMXP);
+  AHRS Gyro;
 
   //Throttle Modules
   CANSparkMax frontRightThrottle;
@@ -38,6 +38,8 @@ public class Drivebase extends SubsystemBase {
 
   /** Creates a new Drivebase. */
   public Drivebase() {
+
+    Gyro = new AHRS(I2C.Port.kMXP);
 
     //defining the throttle motors
     frontRightThrottle  = new CANSparkMax(MotorConstants.FRONT_RIGHT_THROTTLE, MotorType.kBrushless);

@@ -5,8 +5,11 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Constants.ControllerConstants;
+import frc.robot.subsystems.Drivebase;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -18,6 +21,8 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
+  private Drivebase drivebase;
+  private XboxController driver;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -28,6 +33,8 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+    drivebase = new Drivebase();
+    driver = RobotContainer.getDriverController();
   }
 
   /**
@@ -75,13 +82,46 @@ public class Robot extends TimedRobot {
     // continue until interrupted by another command, remove
     // this line or comment it out.
     if (m_autonomousCommand != null) {
+
       m_autonomousCommand.cancel();
+
+
     }
   }
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    double throttle = driver.getLeftY();
+    double turn     = driver.getRightX();
+    boolean brake   = driver.getRightBumper();
+
+    // if the brake is hit, if so set both to 0
+    if(brake){
+      drivebase.drive(0,0);
+    }
+
+    //Checking to see if the Throttle stick is moving
+    if(throttle > ControllerConstants.AXIS_THRESHOLD || throttle < ControllerConstants.NEGITIVE_AXIS_THRESHOLD){
+
+      //if the turn stick is also moving set both
+      if(turn > ControllerConstants.AXIS_THRESHOLD || turn < ControllerConstants.NEGITIVE_AXIS_THRESHOLD){
+        drivebase.drive(throttle, turn);
+      }
+
+      //if it is only throttle, set the turn to 0
+      else{
+        drivebase.drive(throttle, 0);
+      }
+    
+      //if just the turn stick is moving, if so just turn the wheels
+    if(turn > ControllerConstants.AXIS_THRESHOLD || turn < ControllerConstants.NEGITIVE_AXIS_THRESHOLD){
+      drivebase.drive(0, turn);
+      }
+
+    }
+
+  }
 
   @Override
   public void testInit() {

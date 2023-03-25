@@ -55,16 +55,15 @@ public class Drive extends CommandBase {
       if(turn > ControllerConstants.AXIS_THRESHOLD || turn < ControllerConstants.NEGITIVE_AXIS_THRESHOLD){
         drivebase.drive(throttle, turn);
       }
+
+      else if(turn > ControllerConstants.AXIS_THRESHOLD || turn < ControllerConstants.NEGITIVE_AXIS_THRESHOLD){
+        drivebase.drive(0, turn);
+      }
+      
       else{
         drivebase.drive(throttle, 0);
       }
     }
-
-    if(turn > ControllerConstants.AXIS_THRESHOLD || turn < ControllerConstants.NEGITIVE_AXIS_THRESHOLD){
-      drivebase.drive(0, turn);
-    }
-
-
   }
 
 
