@@ -92,34 +92,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    double throttle = driver.getLeftY();
-    double turn     = driver.getRightX();
-    boolean brake   = driver.getRightBumper();
 
-    // if the brake is hit, if so set both to 0
-    if(brake){
-      drivebase.drive(0,0);
-    }
-
-    //Checking to see if the Throttle stick is moving
-    if(throttle > ControllerConstants.AXIS_THRESHOLD || throttle < ControllerConstants.NEGITIVE_AXIS_THRESHOLD){
-
-      //if the turn stick is also moving set both
-      if(turn > ControllerConstants.AXIS_THRESHOLD || turn < ControllerConstants.NEGITIVE_AXIS_THRESHOLD){
-        drivebase.drive(throttle, turn);
-      }
-
-      //if it is only throttle, set the turn to 0
-      else{
-        drivebase.drive(throttle, 0);
-      }
-    
-      //if just the turn stick is moving, if so just turn the wheels
-    if(turn > ControllerConstants.AXIS_THRESHOLD || turn < ControllerConstants.NEGITIVE_AXIS_THRESHOLD){
-      drivebase.drive(0, turn);
-      }
-
-    }
 
   }
 
