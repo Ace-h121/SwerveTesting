@@ -6,7 +6,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.sensors.CANCoder;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -28,9 +28,7 @@ public class SwerveModule {
     private final TalonSRX driverMotor;
     private final TalonSRX turningMotor;
 
-    //Encoders built into the falcon motors
-    private final CANCoder driverEncoder;
-    private final CANCoder turningEncoder;
+
 
     //PID controller used to control turning in auto, also used for setpoint 
     private final PIDController turningPIDControl;
@@ -54,8 +52,7 @@ public class SwerveModule {
         driverMotor.setInverted(driveReversed);
         turningMotor.setInverted(turningReversed);
 
-        driverEncoder = new CANCoder(driveId);
-        turningEncoder = new CANCoder(turningId);
+
 
         
         
@@ -67,19 +64,19 @@ public class SwerveModule {
     //methods for auto and path planning
 
     public double getDrivePosition(){
-        return driverEncoder.getPosition();
+        return driverMotor.getSelectedSensorPosition();
     }
 
     public double getTurningPosition(){
-        return turningEncoder.getPosition();
+        return turningMotor.getSelectedSensorPosition();
     }
 
     public double getDriveVelocity(){
-        return driverEncoder.getVelocity();
+        return driverMotor.getSelectedSensorVelocity();
     }
 
     public double getTurningVelocity(){
-        return turningEncoder.getVelocity();
+        return turningMotor.getSelectedSensorVelocity();
     }
 
     public double getAbsoluteEncoderRad() {
@@ -92,8 +89,8 @@ public class SwerveModule {
     }
 
     public void resetEncoders() {
-        driverEncoder.setPosition(0);
-        turningEncoder.setPosition(getAbsoluteEncoderRad());
+        driverMotor.setSelectedSensorPosition(0);
+        turningMotor.setSelectedSensorPosition(getAbsoluteEncoderRad());
     }
 
     public SwerveModuleState getState(){

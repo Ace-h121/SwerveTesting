@@ -33,13 +33,13 @@ public class Drive extends CommandBase {
 
   public Drive(Drivebase drivebase) {
 
-    drivebase = this.drivebase;
+    this.drivebase = drivebase;
 
     driver = RobotContainer.getDriverController();
 
-    this.xLimiter = new SlewRateLimiter(ModuleConstants.MAX_SPEED);
-    this.yLimiter = new SlewRateLimiter(ModuleConstants.MAX_SPEED);
-    this.turningLimiter = new SlewRateLimiter(ModuleConstants.MAX_TURNING_SPEED);
+    xLimiter = new SlewRateLimiter(ModuleConstants.MAX_SPEED);
+    yLimiter = new SlewRateLimiter(ModuleConstants.MAX_SPEED);
+    turningLimiter = new SlewRateLimiter(ModuleConstants.MAX_TURNING_SPEED);
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drivebase);
     
